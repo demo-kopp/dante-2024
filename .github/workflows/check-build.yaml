@@ -5,6 +5,10 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -19,7 +23,21 @@ jobs:
            packages: >
              latex latex-bin scheme-basic koma-script luatexbase luatex
       - run: lualatex main
+      - name: Prepare build dir
+        run: |
+          mkdir build
+          cp main.pdf build/
       - name: Upload build artifats
         uses: actions/upload-artifact@v4
         with:
-          path: main.pdf
+          path: build
+      - name: Upload to gh-pages branch
+        if: >
+          (github.repository == 'demo-kopp/dante-2024') &&
+          (github.ref == 'refs/heads/main')
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: gh-pages
+          build_dir: build
+        env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
