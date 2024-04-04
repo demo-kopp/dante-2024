@@ -19,3 +19,7 @@ jobs:
            packages: >
              latex latex-bin scheme-basic koma-script luatexbase luatex
       - run: lualatex main
+      - name: Upload build artifats
+        uses: actions/upload-artifact@v4
+        with:
+          path: main.pdf
