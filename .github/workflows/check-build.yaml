@@ -32,6 +32,9 @@ jobs:
         with:
           path: build
       - name: Upload to gh-pages branch
+        if: >
+          (github.repository == 'demo-kopp/dante-2024') &&
+          (github.ref == 'refs/heads/main')
         uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
