@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - run: lualatex main
-      - run: texlogsieve main.log
+      - run: texlogsieve --no-heartbeat main.log
       - name: Prepare build dir
         run: |
           mkdir build
