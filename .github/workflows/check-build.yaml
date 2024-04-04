@@ -20,9 +20,9 @@ jobs:
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
         with:
-           packages: >
-             latex latex-bin scheme-basic koma-script luatexbase luatex
+           package_file: tl_packages
       - run: lualatex main
+      - run: texlogsieve --no-heartbeat main.log
       - name: Prepare build dir
         run: |
           mkdir build
