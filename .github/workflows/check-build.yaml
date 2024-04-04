@@ -22,7 +22,7 @@ jobs:
         with:
            package_file: tl_packages
       - run: lualatex main
-      - run: texlogsieve main.log
+      - run: texlogsieve --no-heartbeat main.log
       - name: Prepare build dir
         run: |
           mkdir build
