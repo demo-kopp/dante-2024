@@ -7,20 +7,15 @@ on:
   pull_request:
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  build:
+  container-test-job:
     runs-on: ubuntu-latest
-    name: check
+    container:
+      image: registry.gitlab.com/islandoftex/images/texlive:latest
+      options: --user root
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install TeX Live
-        uses: zauguin/install-texlive@v3
-        with:
-           package_file: tl_packages
       - run: lualatex main
       - run: texlogsieve --no-heartbeat main.log
       - name: Prepare build dir
@@ -31,13 +26,3 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: build
-      - name: Upload to gh-pages branch
-        if: >
-          (github.repository == 'demo-kopp/dante-2024') &&
-          (github.ref == 'refs/heads/main')
-        uses: crazy-max/ghaction-github-pages@v4
-        with:
-          target_branch: gh-pages
-          build_dir: build
-        env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
